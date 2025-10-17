@@ -20,6 +20,11 @@ public class Constantes {
     public static final String SERVICE_NAME = "Customer Service";
     public static final String VERSION = "1.0.0";
 
+
+    public static final Integer COD_RESPONSE = 0;
+    public static final String USER_SAVED = "User saved successfully";
+    public static final String CUSTOMER_DELETED = "Customer delete successfully";
+    public static final String ERROR_DELETE = "Error Delete: ";
     private Constantes() {
         // Evita la instanciación
     }

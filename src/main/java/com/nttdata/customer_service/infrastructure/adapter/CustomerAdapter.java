@@ -23,4 +23,9 @@ public class CustomerAdapter implements CustomerRepositoryOutputPort {
     public Mono<CustomerEntity> findByIdCustomer(String idCustomer) {
         return repository.findById(idCustomer);
     }
+
+    @Override
+    public Mono<CustomerEntity> saveOrUpdateCustomer(CustomerEntity customerEntity) {
+        return repository.save(customerEntity);
+    }
 }
