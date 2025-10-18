@@ -10,6 +10,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+
 @Data
 @Document(collection = "customers")
 @NoArgsConstructor
@@ -28,7 +31,7 @@ public class CustomerEntity {
     private String phoneNumber;
     private String address;
     private CustomerType customerType;
-    private String createdAt;
-    private String updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 }

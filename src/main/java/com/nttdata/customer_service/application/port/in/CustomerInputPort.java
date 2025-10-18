@@ -11,4 +11,5 @@ public interface CustomerInputPort {
     Mono<CustomerListResponse> findByIdCustomer(String id);
     Mono<CustomerResponse> saveCustomer(CustomerRequest customerListResponseMono);
     Mono<CustomerResponse> deleteByIdCustomer(String id);
+    Mono<CustomerResponse> updateCustomer(CustomerRequest customerRequest);
 }
