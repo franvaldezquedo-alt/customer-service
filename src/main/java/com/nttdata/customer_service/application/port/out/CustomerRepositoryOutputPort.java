@@ -10,3 +10,4 @@ public interface CustomerRepositoryOutputPort {
     Mono<CustomerEntity> saveOrUpdateCustomer(CustomerEntity customerEntity);
     Mono<Void> deleteByIdCustomer(String idCustomer);
 }
+
