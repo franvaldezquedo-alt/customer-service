@@ -29,6 +29,11 @@ public class CustomerErrorFactory {
             return new CustomerNotFoundExeptions(error.getMessage());
         }
 
+        // Documento ya registrado
+        if (error instanceof DuplicateDocumentException) {
+            return new DuplicateDocumentException(Constants.DOCUMENT_ALREADY_REGISTERED);
+        }
+
         // Cualquier otro error inesperado
         return new CustomerException(Constants.DATABASE_EXCEPTION);
     }

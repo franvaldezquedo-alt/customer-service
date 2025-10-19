@@ -1,6 +1,7 @@
 package com.nttdata.customer_service.infrastructure.adapter;
 
 import com.nttdata.customer_service.application.port.out.CustomerRepositoryOutputPort;
+import com.nttdata.customer_service.domain.model.DocumentType;
 import com.nttdata.customer_service.infrastructure.entity.CustomerEntity;
 import com.nttdata.customer_service.infrastructure.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,10 @@ public class CustomerAdapter implements CustomerRepositoryOutputPort {
     @Override
     public Mono<Void> deleteByIdCustomer(String idCustomer) {
         return repository.deleteById(idCustomer);
+    }
+
+    @Override
+    public Mono<CustomerEntity> findByDocumentTypeAndDocumentNumber(DocumentType documentType, String documentNumber) {
+        return repository.findByDocumentTypeAndDocumentNumber(documentType, documentNumber);
     }
 }

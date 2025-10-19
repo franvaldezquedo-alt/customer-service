@@ -51,11 +51,24 @@ public class CustomerService implements CustomerInputPort {
     public Mono<CustomerResponse> saveCustomer(CustomerRequest customerRequest) {
         log.info("Iniciando registro de nuevo cliente: {}", customerRequest);
 
-        return Mono.just(customerRequest)
-                .map(CustomerUtils::convertRequestToEntity)
-                .flatMap(customerRepositoryOutputPort::saveOrUpdateCustomer)
-                .map(CustomerUtils::convertEntityToResponse)
-                .doOnSuccess(response -> log.info("Cliente registrado exitosamente con id: {}", customerRequest.getId()))
+        return customerRepositoryOutputPort.findByDocumentTypeAndDocumentNumber(
+                        customerRequest.getDocumentType(),
+                        customerRequest.getDocumentNumber())
+                .flatMap(existingCustomer -> {
+                    log.warn("Cliente ya existe con documento {} {}",
+                            customerRequest.getDocumentType(),
+                            customerRequest.getDocumentNumber());
+                    return Mono.<CustomerResponse>error(new IllegalArgumentException(Constants.CUSTOMER_ALREADY_EXISTS));
+                })
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.debug("Documento no existe, procediendo a crear cliente");
+                    return Mono.just(customerRequest)
+                            .map(CustomerUtils::convertRequestToEntity)
+                            .flatMap(customerRepositoryOutputPort::saveOrUpdateCustomer)
+                            .map(CustomerUtils::convertEntityToResponse)
+                            .doOnSuccess(response -> log.info("Cliente registrado exitosamente con id: {}",
+                                    response.getCodEntity()));
+                }))
                 .doOnError(error -> log.error("Error al registrar cliente: {}", error.getMessage()))
                 .onErrorResume(CustomerUtils::handleErrorCustomerResponse);
     }

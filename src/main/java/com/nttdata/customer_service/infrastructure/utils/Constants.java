@@ -1,6 +1,6 @@
 package com.nttdata.customer_service.infrastructure.utils;
 
-public class Constants {
+public class    Constants {
 
     // Database Errors
     public static final String DATABASE_UNAVAILABLE = "Database service unavailable. Please verify MongoDB connection.";
@@ -11,6 +11,7 @@ public class Constants {
     public static final String CUSTOMER_NOT_FOUND = "The requested customer was not found.";
     public static final String INVALID_CUSTOMER_DATA = "The provided customer data is invalid.";
     public static final String CUSTOMER_ALREADY_EXISTS = "A customer with the same document already exists.";
+    public static final String DOCUMENT_ALREADY_REGISTERED = "The document number is already registered for another customer.";
 
     // Generic Messages
     public static final String INTERNAL_SERVER_ERROR = "An internal server error occurred.";

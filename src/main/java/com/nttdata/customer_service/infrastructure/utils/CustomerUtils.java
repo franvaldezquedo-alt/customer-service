@@ -74,14 +74,14 @@ public final class CustomerUtils {
      */
     public static CustomerEntity convertRequestToEntity(CustomerRequest request) {
         return CustomerEntity.builder()
-                .documentType(parseDocumentType(request.getDocumentType()))
+                .documentType(parseDocumentType(String.valueOf(request.getDocumentType())))
                 .documentNumber(request.getDocumentNumber())
                 .fullName(request.getFullName())
                 .businessName(request.getBusinessName())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
                 .address(request.getAddress())
-                .customerType(parseCustomerType(request.getCustomerType()))
+                .customerType(parseCustomerType(String.valueOf(request.getCustomerType())))
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -93,14 +93,14 @@ public final class CustomerUtils {
         String currentTimestamp = getCurrentTimestamp();
         return CustomerEntity.builder()
                 .id(request.getId())
-                .documentType(parseDocumentType(request.getDocumentType()))
+                .documentType(parseDocumentType(String.valueOf(request.getDocumentType())))
                 .documentNumber(request.getDocumentNumber())
                 .fullName(request.getFullName())
                 .businessName(request.getBusinessName())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
                 .address(request.getAddress())
-                .customerType(parseCustomerType(request.getCustomerType()))
+                .customerType(parseCustomerType(String.valueOf(request.getCustomerType())))
                 .updatedAt(LocalDateTime.now())
                 .build();
     }
