@@ -5,6 +5,7 @@ import com.nttdata.customer_service.application.port.out.CustomerRepositoryOutpu
 import com.nttdata.customer_service.domain.error.CustomerNotFoundExeptions;
 import com.nttdata.customer_service.domain.model.CustomerListResponse;
 import com.nttdata.customer_service.domain.model.CustomerResponse;
+import com.nttdata.customer_service.domain.model.DocumentType;
 import com.nttdata.customer_service.infrastructure.entity.CustomerEntity;
 import com.nttdata.customer_service.infrastructure.model.CustomerRequest;
 import com.nttdata.customer_service.infrastructure.utils.Constants;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -108,6 +111,29 @@ public class CustomerService implements CustomerInputPort {
                 .doOnError(error -> log.error("Error al actualizar cliente {}: {}",
                         customerRequest.getId(), error.getMessage()))
                 .onErrorResume(CustomerUtils::handleErrorCustomerResponse);
+    }
+
+
+
+    @Override
+    public Mono<CustomerListResponse> findByDocumentTypeAndDocumentNumber(DocumentType documentType, String documentNumber) {
+        log.debug("Buscando cliente con tipo: {} y número de documento: {}", documentType, documentNumber);
+
+        // Validación de parámetros (antes de llamar al repositorio)
+        if (documentType == null || documentNumber == null || documentNumber.isBlank()) {
+            log.warn("Tipo o número de documento inválido: {} - {}", documentType, documentNumber);
+            return Mono.error(new IllegalArgumentException("El tipo y número de documento son obligatorios"));
+        }
+
+        return customerRepositoryOutputPort.findByDocumentTypeAndDocumentNumber(documentType, documentNumber)
+                .filter(Objects::nonNull)
+                .map(CustomerUtils::convertCustomerSingletonResponse)
+                .doOnNext(response -> log.debug("Cliente encontrado: {}", documentNumber))
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.warn("Cliente no encontrado con tipo: {} y número: {}", documentType, documentNumber);
+                    return Mono.error(new CustomerNotFoundExeptions(Constants.CUSTOMER_NOT_FOUND));
+                }))
+                .onErrorResume(CustomerUtils::handleErrorCustomerMono);
     }
 
     private Mono<CustomerResponse> deleteCustomer(String id) {

@@ -3,6 +3,7 @@ package com.nttdata.customer_service.infrastructure.controller;
 import com.nttdata.customer_service.application.port.in.CustomerInputPort;
 import com.nttdata.customer_service.domain.model.CustomerListResponse;
 import com.nttdata.customer_service.domain.model.CustomerResponse;
+import com.nttdata.customer_service.domain.model.DocumentType;
 import com.nttdata.customer_service.infrastructure.model.CustomerRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,4 +53,15 @@ public class CustomerController {
     Mono<CustomerResponse> deleteCustomer(@PathVariable String id) {
         return customerInputPort.deleteByIdCustomer(id);
     }
+
+    @GetMapping("/document")
+    @Operation(summary = "Obtener un cliente por tipo y número de documento")
+    public Mono<CustomerListResponse> getCustomerByDocument(
+            @RequestParam DocumentType documentType,
+            @RequestParam String documentNumber) {
+
+        return customerInputPort.findByDocumentTypeAndDocumentNumber(documentType, documentNumber);
+    }
+
+
 }
