@@ -13,5 +13,5 @@ import java.util.List;
 @Builder
 public class CustomerListResponse {
     private List<Customer> data;
-    private String Error;
+    private String error;
 }

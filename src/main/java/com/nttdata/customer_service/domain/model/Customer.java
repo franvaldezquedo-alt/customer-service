@@ -24,5 +24,6 @@ public class Customer {
     private CustomerType customerType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
+    private StatusType status;
 }
+

@@ -2,6 +2,7 @@ package com.nttdata.customer_service.infrastructure.entity;
 
 import com.nttdata.customer_service.domain.model.CustomerType;
 import com.nttdata.customer_service.domain.model.DocumentType;
+import com.nttdata.customer_service.domain.model.StatusType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,5 +33,6 @@ public class CustomerEntity {
     private CustomerType customerType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private StatusType status;
 
 }

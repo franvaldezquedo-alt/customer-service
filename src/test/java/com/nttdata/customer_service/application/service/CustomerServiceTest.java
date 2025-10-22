@@ -1,6 +1,7 @@
 package com.nttdata.customer_service.application.service;
 
 import com.nttdata.customer_service.application.port.out.CustomerRepositoryOutputPort;
+import com.nttdata.customer_service.domain.model.Customer;
 import com.nttdata.customer_service.domain.model.CustomerListResponse;
 import com.nttdata.customer_service.domain.model.CustomerType;
 import com.nttdata.customer_service.domain.model.DocumentType;
@@ -31,7 +32,7 @@ public class CustomerServiceTest {
 
     @Test
     void testFindAllCustomers() {
-        CustomerEntity customer1 = CustomerEntity.builder()
+        Customer customer1 = Customer.builder()
                 .id("1")
                 .documentType(DocumentType.DNI)
                 .documentNumber("12345678")
@@ -45,7 +46,7 @@ public class CustomerServiceTest {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        CustomerEntity customer2 = CustomerEntity.builder()
+        Customer customer2 = Customer.builder()
                 .id("2")
                 .documentType(DocumentType.PASSPORT)
                 .documentNumber("A9876543")
@@ -59,7 +60,7 @@ public class CustomerServiceTest {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        CustomerEntity customer3 = CustomerEntity.builder()
+        Customer customer3 = Customer.builder()
                 .id("3")
                 .documentType(DocumentType.DNI)
                 .documentNumber("87654321")
@@ -73,7 +74,7 @@ public class CustomerServiceTest {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        List<CustomerEntity> customers = List.of(customer1, customer2, customer3);
+        List<Customer> customers = List.of(customer1, customer2, customer3);
 
         Mockito.when(customerRepositoryOutputPort.findAllCustomer())
                 .thenReturn(Flux.fromIterable(customers));

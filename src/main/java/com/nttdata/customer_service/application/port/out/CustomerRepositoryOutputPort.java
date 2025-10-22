@@ -1,15 +1,15 @@
 package com.nttdata.customer_service.application.port.out;
 
+import com.nttdata.customer_service.domain.model.Customer;
 import com.nttdata.customer_service.domain.model.DocumentType;
-import com.nttdata.customer_service.infrastructure.entity.CustomerEntity;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface CustomerRepositoryOutputPort {
-    Flux<CustomerEntity> findAllCustomer();
-    Mono<CustomerEntity> findByIdCustomer(String idCustomer);
-    Mono<CustomerEntity> saveOrUpdateCustomer(CustomerEntity customerEntity);
+    Flux<Customer> findAllCustomer();
+    Mono<Customer> findByIdCustomer(String idCustomer);
+    Mono<Customer> saveOrUpdateCustomer(Customer customer);
     Mono<Void> deleteByIdCustomer(String idCustomer);
-    Mono<CustomerEntity> findByDocumentTypeAndDocumentNumber(DocumentType documentType, String documentNumber);
+    Mono<Customer> findByDocumentTypeAndDocumentNumber(DocumentType documentType, String documentNumber);
 }
 
