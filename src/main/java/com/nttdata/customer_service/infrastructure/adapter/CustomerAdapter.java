@@ -47,4 +47,10 @@ public class CustomerAdapter implements CustomerRepositoryOutputPort {
         return repository.findByDocumentTypeAndDocumentNumber(documentType, documentNumber)
               .map(mapper::toDomain);
     }
+
+  @Override
+  public Mono<Customer> findByDocumentNumber(String documentNumber) {
+    return repository.findByDocumentNumber(documentNumber)
+          .map(mapper::toDomain);
+  }
 }

@@ -5,71 +5,68 @@ import com.nttdata.customer_service.domain.model.CustomerListResponse;
 import com.nttdata.customer_service.domain.model.CustomerResponse;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Mapper responsable de transformar entidades del dominio Customer
+ * a diferentes modelos de respuesta utilizados en la capa de infraestructura.
+ */
 @Component
 public class CustomerResponseMapper {
 
   /**
-   * Convierte una lista de Customer a CustomerListResponse
+   * Convierte una lista de clientes en una respuesta CustomerListResponse.
+   * Si la lista es nula o vacía, retorna una lista vacía.
    */
   public CustomerListResponse toCustomerListResponse(List<Customer> customers) {
-    if (customers == null || customers.isEmpty()) {
-      return CustomerListResponse.builder()
-            .data(Collections.emptyList())
-            .error(null)
-            .build();
-    }
+    List<Customer> safeList = (customers == null || customers.isEmpty())
+          ? Collections.emptyList()
+          : List.copyOf(customers);
 
     return CustomerListResponse.builder()
-          .data(new ArrayList<>(customers))
-          .error(null)
+          .data(safeList)
           .build();
   }
 
   /**
-   * Convierte un solo Customer a una lista de respuesta (CustomerListResponse con un elemento)
+   * Convierte un solo cliente en una respuesta CustomerListResponse con un solo elemento.
+   * Si el cliente es nulo, devuelve una lista vacía.
    */
   public CustomerListResponse toSingletonResponse(Customer customer) {
-    if (customer == null) {
-      return CustomerListResponse.builder()
-            .data(Collections.emptyList())
-            .error(null)
-            .build();
-    }
+    List<Customer> singletonList = (customer == null)
+          ? Collections.emptyList()
+          : Collections.singletonList(customer);
 
     return CustomerListResponse.builder()
-          .data(Collections.singletonList(customer))
-          .error(null)
+          .data(singletonList)
           .build();
   }
 
   /**
-   * Convierte un Customer (creado o actualizado) en una respuesta simple de éxito
+   * Construye una respuesta de éxito genérica para operaciones de creación o actualización.
    */
   public CustomerResponse toSuccessResponse(String codEntity, String message) {
     return CustomerResponse.builder()
-          .codResponse(0)
+          .codResponse(Constants.SUCCESS_CODE)
           .messageResponse(message)
           .codEntity(codEntity)
           .build();
   }
 
   /**
-   * Convierte una operación de eliminación en una respuesta de éxito
+   * Construye una respuesta de éxito para operaciones de eliminación.
    */
   public CustomerResponse toDeleteResponse(String id) {
     return CustomerResponse.builder()
-          .codResponse(0)
-          .messageResponse("Cliente eliminado correctamente")
+          .codResponse(Constants.SUCCESS_CODE)
+          .messageResponse(Constants.CUSTOMER_DELETED)
           .codEntity(id)
           .build();
   }
 
   /**
-   * Convierte un error o excepción en una respuesta estándar
+   * Construye una respuesta estándar de error.
    */
   public CustomerResponse toErrorResponse(String message) {
     return CustomerResponse.builder()

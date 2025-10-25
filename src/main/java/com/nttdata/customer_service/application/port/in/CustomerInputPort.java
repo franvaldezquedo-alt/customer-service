@@ -14,4 +14,5 @@ public interface CustomerInputPort {
     Mono<CustomerResponse> deleteByIdCustomer(String id);
     Mono<CustomerResponse> updateCustomer(CustomerRequest customerRequest);
     Mono<CustomerListResponse> findByDocumentTypeAndDocumentNumber(DocumentType documentType, String documentNumber);
+    Mono<CustomerListResponse> findByDocumentNumber(String documentNumber);
 }

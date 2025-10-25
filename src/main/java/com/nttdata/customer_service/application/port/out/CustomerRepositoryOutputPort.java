@@ -11,5 +11,6 @@ public interface CustomerRepositoryOutputPort {
     Mono<Customer> saveOrUpdateCustomer(Customer customer);
     Mono<Void> deleteByIdCustomer(String idCustomer);
     Mono<Customer> findByDocumentTypeAndDocumentNumber(DocumentType documentType, String documentNumber);
+    Mono<Customer> findByDocumentNumber(String documentNumber);
 }
 
