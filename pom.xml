@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -52,22 +52,22 @@
 			<scope>test</scope>
 		</dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-ui</artifactId>
-            <version>1.7.0</version>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-webflux-ui</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -79,7 +79,7 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-                            <version>1.18.32</version>
+							<version>1.18.32</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -97,43 +97,95 @@
 				</configuration>
 			</plugin>
 
-            <!-- Surefire: asegurar que los reports XML se generan en target/surefire-reports -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <reportsDirectory>${project.build.directory}/site</reportsDirectory>
-                    <!-- Asegurar que JUnit Platform genera XML -->
-                    <useFile>true</useFile>
-                </configuration>
-            </plugin>
+			<!-- Surefire: asegurar que los reports XML se generan en target/surefire-reports -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<reportsDirectory>${project.build.directory}/site</reportsDirectory>
+					<!-- Asegurar que JUnit Platform genera XML -->
+					<useFile>true</useFile>
+				</configuration>
+			</plugin>
 
-            <!-- JaCoCo: generar reporte de cobertura en formato XML para Sonar -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.10</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/jacoco-report</outputDirectory>
-                            <dataFile>${project.build.directory}/jacoco.exec</dataFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+			<!-- JaCoCo: generar reporte de cobertura en formato XML para Sonar -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.10</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/jacoco-report</outputDirectory>
+							<dataFile>${project.build.directory}/jacoco.exec</dataFile>
+							<!-- Exclusiones para el reporte -->
+							<excludes>
+								<exclude>**/domain/model/**/*.class</exclude>
+								<exclude>**/infrastructure/model/**/*.class</exclude>
+								<exclude>**/infrastructure/entity/**/*.class</exclude>
+								<exclude>**/infrastructure/dto/**/*.class</exclude>
+								<exclude>**/application/dto/**/*.class</exclude>
+								<exclude>**/config/**/*.class</exclude>
+								<exclude>**/exception/**/*.class</exclude>
+								<exclude>**/error/**/*.class</exclude>
+								<exclude>**/utils/**/*.class</exclude>
+								<exclude>**/*Application.class</exclude>
+								<!-- Excluir clases internas generadas por Lombok -->
+								<exclude>**/*$*.class</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>PACKAGE</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.80</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+							<!-- Exclusiones para el check -->
+							<excludes>
+								<exclude>**/domain/model/**/*.class</exclude>
+								<exclude>**/infrastructure/model/**/*.class</exclude>
+								<exclude>**/infrastructure/entity/**/*.class</exclude>
+								<exclude>**/infrastructure/dto/**/*.class</exclude>
+								<exclude>**/application/dto/**/*.class</exclude>
+								<exclude>**/config/**/*.class</exclude>
+								<exclude>**/exception/**/*.class</exclude>
+								<exclude>**/error/**/*.class</exclude>
+								<exclude>**/utils/**/*.class</exclude>
+								<exclude>**/*Application.class</exclude>
+								<exclude>**/controller/GlobalExceptionHandler.class</exclude>
+								<exclude>**/*ExceptionHandler.class</exclude>
+								<!-- Excluir clases internas generadas por Lombok -->
+								<exclude>**/*$*.class</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<repositories>
